@@ -1,27 +1,27 @@
 - name: Detect CL Release
-  shell: source /etc/lsb-release; echo "$DISTRIB_RELEASE"
+  shell: cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -d '=' -f2
   register: cl_release
   changed_when: false
 
 - name: Detect NetQ Vers
-  shell: source /etc/app-release; echo "$APPLIANCE_VERSION"
+  shell: cat /etc/app-release | grep APPLIANCE_VERSION | cut -d '=' -f2 
   register: netq_release
   changed_when: false
 
+- debug: msg="Netq Release {{netq_release.stdout}} clrelease {{cl_release.stdout}}"
+
 - name: Check for Supported NetQ Version
   assert:
-    that: "netq_release.stdout == netq_desired_release"
-    msg: "This Playbook is written for NetQ version {{netq_desired_release}} but the environment is using version {{netq_release.stdout}}"
+    that: "netq_release.stdout == desired_netq_release"
+    msg: "This Playbook is written for NetQ version {{desired_netq_release}} but the environment is using version {{netq_release.stdout}}"
 
 - name: Push OOB MOTD
-  copy:
-    src: motd
-    dest: /etc/motd
+  copy: src=motd dest=/etc/motd
 
-- name: Push Interface Config
-  copy:
-    src: interfaces
-    dest: /etc/network/interfaces
+#- name: Push Interface Config
+#  copy:
+#    src: interfaces
+#    dest: /etc/network/interfaces
 
 - name: Apply Interface Config
   shell: ifreload -a
@@ -44,7 +44,7 @@
     dest: /etc/apt/sources.list.d/jessie.list
 
 - name: Update Software Repo
-  apt: name={{item}} update_cache=yes
+  apt: name="{{item}}" update_cache=yes
   with_items:
    - "isc-dhcp-server"
    - "tree"
@@ -55,7 +55,7 @@
    - "vim"
 
 - name: Detect Ansible Version
-  shell: if which ansible > /dev/null; then ansible --version | head -n1 | cut -d ' ' -f2; fi
+  shell: 'if which ansible > /dev/null; then ansible --version | head -n1 | cut -d " " -f2; fi'
   register: ansible_vers
   changed_when: false
 
@@ -64,17 +64,17 @@
     that: "ansible_vers.stdout == desired_ansible_version"
     msg: "This Bootcamp was built for {{desired_ansible_version}} but version {{ansible_vers.stdout}} is installed."
 
-- name: Install Appropriate Version of Ansible
-  include:
-  when: 
-
-- name: Install Ansible Dependencies
-  apt: name={{item}} update_cache=yes
-  with_items:
-   - "build-essential"
-   - "sshpass"
-   - "libssh-dev"
-   - "python-dev"
-   - "libssl-dev"
-   - "libffi-dev"
-  when: (ansible_vers.stdout == desired_ansible_version)
+#- name: Install Appropriate Version of Ansible
+#  include:
+#  when: 
+#
+#- name: Install Ansible Dependencies
+#  apt: name={{item}} update_cache=yes
+#  with_items:
+#   - "build-essential"
+#   - "sshpass"
+#   - "libssh-dev"
+#   - "python-dev"
+#   - "libssl-dev"
+#   - "libffi-dev"
+#  when: (ansible_vers.stdout == desired_ansible_version)

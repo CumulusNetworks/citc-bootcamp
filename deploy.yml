@@ -2,21 +2,24 @@
   hosts: oob-server
   become: yes
   vars:
+    desired_netq_release: "1.2.0"
     desired_ansible_version: "2.4.1.0"
   gather_facts: no
   roles:
-  - prepare_oob_server
+  - prepare-oob-server
 
-- name: Work on the Switches
-  hosts: spine,leaf
-  become: yes
-  gather_facts: no
-  roles:
-  - prepare_switches
-
-- name: Work on the Servers
-  hosts: servers
-  become: yes
-  gather_facts: no
-  roles:
-  - prepare_servers
+#- name: Work on the Switches
+#  hosts: spine,leaf
+#  become: yes
+#  vars:
+#   desired_cl_release: "3.4.3"
+#  gather_facts: no
+#  roles:
+#  - prepare_switches
+#
+#- name: Work on the Servers
+#  hosts: servers
+#  become: yes
+#  gather_facts: no
+#  roles:
+#  - prepare_servers
