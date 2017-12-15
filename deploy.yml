@@ -1,0 +1,22 @@
+- name: Work on OOB-Server
+  hosts: oob-server
+  become: yes
+  vars:
+    desired_ansible_version: "2.4.1.0"
+  gather_facts: no
+  roles:
+  - prepare_oob_server
+
+- name: Work on the Switches
+  hosts: spine,leaf
+  become: yes
+  gather_facts: no
+  roles:
+  - prepare_switches
+
+- name: Work on the Servers
+  hosts: servers
+  become: yes
+  gather_facts: no
+  roles:
+  - prepare_servers

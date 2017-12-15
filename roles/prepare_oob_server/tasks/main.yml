@@ -1,0 +1,80 @@
+- name: Detect CL Release
+  shell: source /etc/lsb-release; echo "$DISTRIB_RELEASE"
+  register: cl_release
+  changed_when: false
+
+- name: Detect NetQ Vers
+  shell: source /etc/app-release; echo "$APPLIANCE_VERSION"
+  register: netq_release
+  changed_when: false
+
+- name: Check for Supported NetQ Version
+  assert:
+    that: "netq_release.stdout == netq_desired_release"
+    msg: "This Playbook is written for NetQ version {{netq_desired_release}} but the environment is using version {{netq_release.stdout}}"
+
+- name: Push OOB MOTD
+  copy:
+    src: motd
+    dest: /etc/motd
+
+- name: Push Interface Config
+  copy:
+    src: interfaces
+    dest: /etc/network/interfaces
+
+- name: Apply Interface Config
+  shell: ifreload -a
+
+- name: Push DNS
+  copy:
+    content: |
+      nameserver 8.8.8.8
+      nameserver 8.8.4.4
+    dest: /etc/resolv.conf
+
+- name: Adding Jessie Repos
+  copy: 
+    content: |
+      deb  http://deb.debian.org/debian jessie main
+      deb-src  http://deb.debian.org/debian jessie main
+      
+      deb  http://deb.debian.org/debian jessie-updates main
+      deb-src  http://deb.debian.org/debian jessie-updates main
+    dest: /etc/apt/sources.list.d/jessie.list
+
+- name: Update Software Repo
+  apt: name={{item}} update_cache=yes
+  with_items:
+   - "isc-dhcp-server"
+   - "tree"
+   - "apache2"
+   - "git"
+   - "python-pip"
+   - "dnsmasq"
+   - "vim"
+
+- name: Detect Ansible Version
+  shell: if which ansible > /dev/null; then ansible --version | head -n1 | cut -d ' ' -f2; fi
+  register: ansible_vers
+  changed_when: false
+
+- name: Make Sure Correct Ansible Version is Installed
+  debug:
+    that: "ansible_vers.stdout == desired_ansible_version"
+    msg: "This Bootcamp was built for {{desired_ansible_version}} but version {{ansible_vers.stdout}} is installed."
+
+- name: Install Appropriate Version of Ansible
+  include:
+  when: 
+
+- name: Install Ansible Dependencies
+  apt: name={{item}} update_cache=yes
+  with_items:
+   - "build-essential"
+   - "sshpass"
+   - "libssh-dev"
+   - "python-dev"
+   - "libssl-dev"
+   - "libffi-dev"
+  when: (ansible_vers.stdout == desired_ansible_version)

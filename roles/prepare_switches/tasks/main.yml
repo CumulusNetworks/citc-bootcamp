@@ -1,0 +1,5 @@
+- name: Detect CL Release
+  shell: source /etc/lsb-release; echo "$DISTRIB_RELEASE"
+  register: cl_release
+  changed_when: false
+

@@ -1,0 +1,19 @@
+
+[oob]
+oob-server ansible_host=localhost ansible_user=cumulus ansible_ssh_pass=CumulusLinux!
+
+[spine]
+spine01
+spine02
+
+[leaf]
+leaf01
+leaf02
+leaf03
+leaf04
+
+[server]
+server01
+server02
+server03
+server04
