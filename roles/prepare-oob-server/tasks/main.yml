@@ -109,6 +109,6 @@
     dest: /var/www/html/index.html
 
 - name: Push ZTP script
-  copy: src=ztp.sh dest=/var/www/html/ztp.sh
+  copy: src=ztp.sh dest=/var/www/html/ztp_oob.sh
 
 
