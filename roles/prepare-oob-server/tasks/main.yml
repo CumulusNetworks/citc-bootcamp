@@ -89,4 +89,23 @@
 - name: Enabling DNSMasq
   service: name=dnsmasq state=started enabled=true
 
+- name: Push Stock DHCP Files
+  copy: src="{{item}}" dest="/etc/dhcp/{{item}}"
+  with_items:
+  - "dhcpd.conf"
+  - "dhcpd.pools"
+  - "dhcpd.hosts"
+
+- name: Restart DHCP
+  service: name=dhcpd state=restarted
+
+- name: Push new HTML Index
+  copy: 
+    content: |
+      <html><h1>You've come to the {{inventory_hostname}}</h1></html>
+    dest: /var/www/html/index.html
+
+- name: Push ZTP script
+  copy: src=ztp.sh dest=/var/www/html/ztp.sh
+
 
