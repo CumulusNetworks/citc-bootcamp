@@ -22,9 +22,9 @@
 #  copy:
 #    src: interfaces
 #    dest: /etc/network/interfaces
-
-- name: Apply Interface Config
-  shell: ifreload -a
+#
+#- name: Apply Interface Config
+#  shell: ifreload -a
 
 - name: Push DNS
   copy:
@@ -61,20 +61,10 @@
 
 - name: Make Sure Correct Ansible Version is Installed
   debug:
-    that: "ansible_vers.stdout == desired_ansible_version"
     msg: "This Bootcamp was built for {{desired_ansible_version}} but version {{ansible_vers.stdout}} is installed."
 
-#- name: Install Appropriate Version of Ansible
-#  include:
-#  when: 
-#
-#- name: Install Ansible Dependencies
-#  apt: name={{item}} update_cache=yes
-#  with_items:
-#   - "build-essential"
-#   - "sshpass"
-#   - "libssh-dev"
-#   - "python-dev"
-#   - "libssl-dev"
-#   - "libffi-dev"
-#  when: (ansible_vers.stdout == desired_ansible_version)
+- name: Install Appropriate Version of Ansible
+  include: install_ansible.yml
+  when: "ansible_vers.stdout != desired_ansible_version"
+
+
