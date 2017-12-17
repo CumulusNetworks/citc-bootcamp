@@ -80,6 +80,9 @@
           editor = nano
     dest: /home/cumulus/.gitconfig
 
+- name: Make sure Ansible Directory Exists
+  file: path=/etc/ansible state=directory
+
 - name: Copying Ansible Hosts
   copy: src=ansible_hosts dest=/etc/ansible/hosts
 
