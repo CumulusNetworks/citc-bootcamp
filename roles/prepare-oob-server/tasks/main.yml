@@ -80,6 +80,17 @@
           editor = nano
     dest: /home/cumulus/.gitconfig
 
+- name: Updated BashRC
+  copy: src=bashrc dest=/home/cumulus/.bashrc
+
+- name: Clone the Bootcamp Automation Repo
+  git:
+    repo: 'https://github.com/CumulusNetworks/BootcampAutomation.git'
+    dest: /home/cumulus/BootcampAutomation
+    version: "{{ bootcamp_automation_branch }}"
+    clone: yes
+    force: yes
+
 - name: Make sure Ansible Directory Exists
   file: path=/etc/ansible state=directory
 
