@@ -90,6 +90,7 @@
     version: "{{ bootcamp_automation_branch }}"
     clone: yes
     force: yes
+  become: no
 
 - name: Make sure Ansible Directory Exists
   file: path=/etc/ansible state=directory
