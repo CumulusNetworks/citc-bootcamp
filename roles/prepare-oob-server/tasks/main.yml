@@ -67,4 +67,26 @@
   include: install_ansible.yml
   when: "ansible_vers.stdout != desired_ansible_version"
 
+- name: Installing Git default settings
+  copy: 
+    content: |
+      [push]
+          default = matching
+      [color]
+          ui = true
+      [credential]
+          helper = cache --timeout=3600
+      [core]
+          editor = nano
+    dest: /home/cumulus/.gitconfig
+
+- name: Copying Ansible Hosts
+  copy: src=ansible_hosts dest=/etc/ansible/hosts
+
+- name: Copying Local DNS File (/etc/hosts)
+  copy: src=hosts dest=/etc/hosts
+
+- name: Enabling DNSMasq
+  service: name=dnsmasq state=started enabled=true
+
 
