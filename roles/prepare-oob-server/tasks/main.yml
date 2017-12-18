@@ -18,13 +18,13 @@
 - name: Push OOB MOTD
   copy: src=motd dest=/etc/motd
 
-#- name: Push Interface Config
-#  copy:
-#    src: interfaces
-#    dest: /etc/network/interfaces
-#
-#- name: Apply Interface Config
-#  shell: ifreload -a
+- name: Push Interface Config
+  copy:
+    src: interfaces
+    dest: /etc/network/interfaces
+
+- name: Apply Interface Config
+  shell: ifreload -a
 
 - name: Push DNS
   copy:
@@ -104,15 +104,14 @@
 - name: Enabling DNSMasq
   service: name=dnsmasq state=started enabled=true
 
-- name: Push Stock DHCP Files
-  copy: src="{{item}}" dest="/etc/dhcp/{{item}}"
-  with_items:
-  - "dhcpd.conf"
-  - "dhcpd.pools"
-  - "dhcpd.hosts"
-
 - name: Restart DHCP
   service: name=dhcpd state=restarted
+
+- name: Push Vagrant Public Key
+  copy: src=id_rsa.pub dest="{{item}}"
+  with_items:
+  - "/home/cumulus/.ssh/id_rsa.pub"
+  - "/var/www/html/authorized_keys"
 
 - name: Push new HTML Index
   copy: 
