@@ -2,9 +2,9 @@
   hosts: oob-server
   become: yes
   vars:
-    desired_netq_release: "1.2.0"
+    desired_netq_release: "1.1.0"
     desired_ansible_version: "2.4.1.0"
-    bootcamp_automation_branch: "v3.4.3"
+    bootcamp_automation_branch: "v3.4.2"
   gather_facts: no
   roles:
   - prepare-oob-server
@@ -13,14 +13,16 @@
 #  hosts: spine,leaf
 #  become: yes
 #  vars:
-#   desired_cl_release: "3.4.3"
+#   desired_cl_release: "3.4.2"
 #  gather_facts: no
 #  roles:
 #  - prepare_switches
 #
-#- name: Work on the Servers
-#  hosts: servers
-#  become: yes
-#  gather_facts: no
-#  roles:
-#  - prepare_servers
+- name: Work on the Servers
+  hosts: servers
+  become: yes
+  vars:
+   desired_ubuntu_release: "16.04"
+  gather_facts: no
+  roles:
+  - prepare_servers
