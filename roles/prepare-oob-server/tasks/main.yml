@@ -10,10 +10,10 @@
 
 - debug: msg="Netq Release {{netq_release.stdout}} clrelease {{cl_release.stdout}}"
 
-- name: Check for Supported NetQ Version
-  assert:
-    that: "netq_release.stdout == desired_netq_release"
-    msg: "This Playbook is written for NetQ version {{desired_netq_release}} but the environment is using version {{netq_release.stdout}}"
+#- name: Check for Supported NetQ Version
+#  assert:
+#    that: "netq_release.stdout == desired_netq_release"
+#    msg: "This Playbook is written for NetQ version {{desired_netq_release}} but the environment is using version {{netq_release.stdout}}"
 
 - name: Push OOB MOTD
   copy: src=motd dest=/etc/motd
