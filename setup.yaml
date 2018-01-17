@@ -9,15 +9,15 @@
   roles:
   - prepare-oob-server
 
-#- name: Work on the Switches
-#  hosts: spine,leaf
-#  become: yes
-#  vars:
-#   desired_cl_release: "3.4.2"
-#  gather_facts: no
-#  roles:
-#  - prepare_switches
-#
+- name: Work on the Switches
+  hosts: spine,leaf
+ become: yes
+  vars:
+   desired_cl_release: "3.4.2"
+  gather_facts: no
+  roles:
+  - prepare-switches
+
 - name: Work on the Servers
   hosts: servers
   become: yes
@@ -25,4 +25,4 @@
    desired_ubuntu_release: "16.04"
   gather_facts: no
   roles:
-  - prepare_servers
+  - prepare-servers
