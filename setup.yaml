@@ -19,7 +19,7 @@
   - prepare-switches
 
 - name: Work on the Servers
-  hosts: servers
+  hosts: server
   become: yes
   vars:
    desired_ubuntu_release: "16.04"
