@@ -34,7 +34,7 @@
    dest: /etc/lldpd.d/port_info.conf
 
 - name: Restart LLDPd
-  service: name=lldpd start=restarted
+  service: name=lldpd state=restarted
 
 - name: Install a .deb package
   apt:
