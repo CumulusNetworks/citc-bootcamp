@@ -11,7 +11,7 @@
 
 - name: Work on the Switches
   hosts: spine,leaf
- become: yes
+  become: yes
   vars:
    desired_cl_release: "3.4.2"
   gather_facts: no
