@@ -4,6 +4,5 @@ sudo pip install ansible --upgrade
 rm -rf ansible-push-keys
 git clone https://github.com/cumulusnetworks/ansible-push-keys
 cd ansible-push-keys; cat /etc/dhcp/dhcpd.hosts | grep 'host .* {' | cut -d " " -f 2 >> hosts
-cd ansible-push-keys; ansible-playbook push-keys.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!' --extra-vars 'ansible_become_pass=CumulusLinux!' | tee -a output1.txt
-rm -rf ansible-push-keys
-ansible-playbook setup.yaml | tee -a output2.txt
+cd ansible-push-keys; ansible-playbook push-keys.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!' --extra-vars 'ansible_become_pass=CumulusLinux!' | tee -a ../playbook1_output.txt
+ansible-playbook setup.yaml | tee -a playbook2_output.txt
