@@ -116,8 +116,17 @@
 - name: Push new HTML Index
   copy: 
     content: |
-      <html><h1>You've come to the {{inventory_hostname}}</h1></html>
+      <html><h1>You've come to the oob-mgmt-server.</h1></html>
     dest: /var/www/html/index.html
+
+- name: Push License.lic File
+  copy: 
+    content: |
+      this is a fake license
+    dest: /var/www/html/license.lic
+
+- name: Push Topology.dot script
+  copy: src=topology.dot dest=/var/www/html/topology.dot
 
 - name: Push ZTP script
   copy: src=ztp.sh dest=/var/www/html/ztp_oob.sh
