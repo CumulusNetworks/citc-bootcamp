@@ -5,10 +5,10 @@
 
 - debug: msg="Ubuntu Release {{ubuntu_release.stdout}}"
 
-#- name: Check for Supported Ubuntu Version
-#  assert:
-#    that: "ubuntu_release.stdout == desired_ubuntu_release"
-#    msg: "This Playbook is written for Ubuntu version {{desired_ubuntu_release}} but the environment is using version {{ubuntu_release.stdout}}"
+- name: Check for Supported Ubuntu Version
+  assert:
+    that: "ubuntu_release.stdout == desired_ubuntu_release"
+    msg: "This Playbook is written for Ubuntu version {{desired_ubuntu_release}} but the environment is using version {{ubuntu_release.stdout}}"
 
 - name: Remove MOTD Restart Warnings
   file:
