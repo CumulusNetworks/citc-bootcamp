@@ -17,6 +17,7 @@
   gather_facts: no
   roles:
   - prepare-switches
+  - switch-netq
 
 - name: Work on the Servers
   hosts: server*
@@ -26,3 +27,4 @@
   gather_facts: no
   roles:
   - prepare-servers
+  - server-netq
