@@ -5,10 +5,10 @@ vm leaf03 cumulus-vx-3.4.2 1 2 2
 vm leaf04 cumulus-vx-3.4.2 1 2 2
 vm spine01 cumulus-vx-3.4.2 1 2 2
 vm spine02 cumulus-vx-3.4.2 1 2 2
-vm server01 ubuntu-16.04 2 4 4
-vm server02 ubuntu-16.04 2 4 4
-vm server03 ubuntu-16.04 2 4 4
-vm server04 ubuntu-16.04 2 4 4
+vm server01 ubuntu-16.04 1 1 1
+vm server02 ubuntu-16.04 1 1 1
+vm server03 ubuntu-16.04 1 1 1
+vm server04 ubuntu-16.04 1 1 1
 
 network oob-mgmt-server eth0 10.255.0.1 255.255.0.0 public
 service oob-mgmt-server ssh eth0 22 TCP public
