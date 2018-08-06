@@ -1,16 +1,21 @@
-- name: install netq
+- name: Fix GPG Error
+  shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A88BBC95
+- name: Install NetQ Repo
   apt_repository:
     repo: deb https://apps3.cumulusnetworks.com/repos/deb CumulusLinux-3 netq-1.1
     filename: netq
     state: present
-- apt:
+- name: Install NetQ Software
+  apt:
     name: cumulus-netq
     update_cache: yes
     state: latest
-- service:
+- name: Restart Syslog
+  service:
     name: rsyslog
     state: restarted
-- service:
+- name: Enable and Restart Netqd
+  service:
     name: netqd
     enabled: yes
     state: restarted
