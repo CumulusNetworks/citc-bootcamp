@@ -131,4 +131,9 @@
 - name: Push ZTP script
   copy: src=ztp.sh dest=/var/www/html/ztp_oob.sh
 
+- name: Setup NTP
+  copy: src=ntp.conf dest=/etc/ntp.conf
+
+- name: Restart NTP
+  service: name=ntp state=restarted
 
